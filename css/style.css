@@ -162,6 +162,7 @@ nav ul li{
     right: 0;
     width: 60%;
     height: 30px;
+    overflow: hidden;
 
 }
 #songDuration{
@@ -176,7 +177,7 @@ nav ul li{
     position: absolute;
     height: 50px;
     width: 50px;
-    background-color: rgb(150, 54, 54);
+    background-color: transparent;
     opacity: 1;
     border-radius: 10px;
     background-image: url("../img/cover1.jpg");
