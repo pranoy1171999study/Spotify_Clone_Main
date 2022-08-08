@@ -10,8 +10,8 @@
     rightSong=document.getElementById('rightSong');
     var currTime= document.getElementById("currTime");
     var totalTime=document.getElementById("totalTime");
-    currTime.innerText=TimeFormatChange(audioElement.currentTime);
-    totalTime.innerText=TimeFormatChange(audioElement.duration);
+    currTime.innerHTML="<div class='loaderTimer'></div>";
+    totalTime.innerHTML="";
     //console.log(audioElement.duration);
     var playPromise;
 function part1()
@@ -48,8 +48,10 @@ function mpPlay()
 {
     //songInfoName.innerText=currSongList[i].title;
     playPromise=audioElement.play();
-    currTime.innerText=TimeFormatChange(audioElement.currentTime);
-    totalTime.innerText=TimeFormatChange(audioElement.duration);
+    //currTime.innerText=TimeFormatChange(audioElement.currentTime);
+    //totalTime.innerText=TimeFormatChange(audioElement.duration);
+    currTime.innerHTML="<div class='loaderTimer'></div>";
+    totalTime.innerHTML="";
     masterPlay.classList.remove('fa-circle-play');
     masterPlay.classList.add('fa-circle-pause');
     gif.style.opacity=1;
@@ -117,8 +119,12 @@ function handleDuration()
         mpPause();
         songForward();
     }
-    currTime.innerText=TimeFormatChange(audioElement.currentTime);
-    totalTime.innerText=TimeFormatChange(audioElement.duration);
+    if(!TimeFormatChange(audioElement.duration).includes("N"))
+    {
+        currTime.innerText=TimeFormatChange(audioElement.currentTime);
+        totalTime.innerText=TimeFormatChange(audioElement.duration);
+    }
+    
 }
 
 function updateProgressBar(){
