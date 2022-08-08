@@ -1,0 +1,191 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+body{
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    background-color:black;
+}
+.main-container{
+    position: relative;
+    min-height: 54.4vh;
+    width: 86%;
+    color: white;
+    font-family: 'Varela Round' , sans-serif;
+    margin:30px 2.5%;
+    border-radius: 12px;
+    overflow: hidden;
+    padding-right: 100px;
+
+}
+.section-name{
+    height: 30px;
+    width: auto;
+    background-color: transparent;
+    position: absolute;
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 0px;
+    border-image: linear-gradient(to right, rgb(214, 202, 40), rgb(76, 204, 50)) 1;
+    border-bottom: 3px solid ;
+}
+.slider{
+    position: relative;
+    top:70px;
+    left: 50px;
+    height:220px;
+    padding: 0;margin: 0;
+    width:100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    background-color: transparent;
+    border-radius: 0px;
+    
+}
+.slider::-webkit-scrollbar {
+    display: none;
+  }
+.chain{
+    padding: 0;margin: 0;
+    height:auto;
+    margin-top: 0px;
+    width: fit-content;
+}
+.card-container{
+    height:220px;
+    width: 300px;
+    margin-right: 50px;
+    background-color: transparent;
+    float: left;
+    transition: 2s;
+    border-radius: 0px;
+}
+.card{
+    height:200px;
+    width: 300px;
+    background-color:green;
+    border-radius: 0px;
+    background-image: url(../img/cover3.jpg);
+    background-size: cover;
+}
+.card-name{
+    width: 300px;
+    height: 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Open Sans', sans-serif;
+}
+.left-slide{
+    position: absolute;
+    left:0;
+    top:100px;
+    margin-top: 50px;
+    height: 50px;width: 50px;
+    background-color:transparent;
+}
+.right-slide{
+    position: absolute;
+    right:-20px;
+    top:150px;
+    height: 50px;width: 50px;
+    background-color: transparent;
+}
+
+
+
+
+
+
+#fslider-container{
+    min-height: 0;
+    position: relative;
+    width: 94%;
+    height: 500px;
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 0px;
+    background-color:transparent;
+    padding: 0;
+
+}
+#fslider{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: transparent;
+    padding: 0;
+    overflow: hidden;
+    overflow-x: scroll;
+    scroll-behavior: smooth;
+}
+#fslider::-webkit-scrollbar {
+    display: none;
+  }
+#fslider-left-slide{
+    top:40%;
+    left:20px;
+    margin-top: 0;
+    background-color:transparent;
+}
+#fslider-right-slide{
+    top:40%;
+    right:0px;
+    margin-top: 0;
+    background-color: transparent;
+}
+
+.fslider-card{
+    position: relative;
+    float: left;
+    height: 100%;
+    margin-top: 0px;
+    border-radius: 0px;
+    padding: 0;
+    width: 33.3333%;
+    color: black;
+    font-size: 40px;
+    background-color: transparent;
+    background-size: cover;
+}
+#fslider-chain{
+    background-color: transparent;
+    width: 300%;
+    height: 100%;
+}
+
+#bengali{
+    background-color: rgb(21, 27, 205);
+}
+#hindi{
+    background-color: rgb(85, 13, 107);
+}
+#english{
+    background-color: rgb(158, 97, 0);
+}
+.fslider-card-name{
+    height: 50px;
+    width: 300px;
+    margin: 50px auto;
+    margin-left: 100px;
+    background-color: transparent;
+    color: rgb(255, 255, 255);
+}
+.fslider-card-image{
+    position: absolute;
+    bottom: 0px;
+    right:30px;
+    height: 70%;
+    width: 50%;
+    background-color: transparent;
+}
+
+
