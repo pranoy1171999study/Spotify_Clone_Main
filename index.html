@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Spotify Clone</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/utils.css">
@@ -94,9 +95,10 @@
             <div class="section-name">Songs</div>
             <div class="slider" id="slider2" >
                 <div class="chain" id="chain2">
+                    <!--
                     <div class="card-container">
                         <div class="card"></div>
-                        <div class="card-name">name</div>
+                        <div class="card-name"></div>
                     </div>
                     <div class="card-container">
                         <div class="card"></div>
@@ -109,7 +111,7 @@
                     <div class="card-container">
                         <div class="card"></div>
                         <div class="card-name">name</div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
     
@@ -242,6 +244,7 @@
                             chainWidth+=350;
                             var link=path+"album/"+element['sort_path'];
                             albumCards+='<div class="card-container" id="a'+element['id']+'" onclick="gotoAlbum('+element['id']+')">'+
+                            '<div class="loaderCards"></div>'+
                             '<div class="card" style="background-image:url('+link+');"></div>'+
                             '<div class="card-name">'+element['name']+'</div>'+
                             '</div>';
@@ -274,6 +277,7 @@
                             chainWidth+=350;
                             var link=path+"images/"+element['image'];
                             songCards+='<div class="card-container songPlayCard" id=s"'+element['id']+'">'+
+                            '<div class="loaderCards"></div>'+
                             '<div class="card" style="background-image:url('+link+');"></div>'+
                             '<div class="card-name">'+element['title']+'</div>'+
                             '</div>';
@@ -295,13 +299,15 @@
                 if(cid=="bengali") cid=1;
                 if(cid=="hindi") cid=2;
                 if(cid=="english") cid=3;
-                openLangauge();
+                //openLangauge();
                 //send api request to fetch all the songs available in the album
                 var alb_song_plate=document.getElementById("alb-song-plate");
                 $.get(apiUrl+"/fetch_songs_by_langauge_id.php",{
                     "id":cid
                 },function(response){
                     //console.log(response)
+                    openLangauge();
+                    alb_song_plate.innerHTML="<div class='loader'></div>";
                     currAlbum=cid;
                     var result = JSON.parse(""+response);
                     if(result.status===true)
@@ -384,13 +390,16 @@
             //on clicking algum goto album page with id
             function gotoAlbum(cid)
             {
-                openAlbum();
+                
                 //send api request to fetch all the songs available in the album
                 var alb_song_plate=document.getElementById("alb-song-plate");
+                alb_song_plate.innerHTML="<div class='loader'></div>";//handle loding untill songs come
                 $.get(apiUrl+"/fetch_songs_by_album_id.php",{
                     "id":cid
                 },function(response){
                     //console.log(response)
+                    openAlbum();
+                    alb_song_plate.innerHTML="<div class='loader'></div>";
                     currAlbum=cid;
                     var result = JSON.parse(""+response);
                     if(result.status===true)
@@ -631,6 +640,7 @@
                 
                 //fetch songs of the selected album
                 var alb_song_plate=document.getElementById("alb-song-plate");
+                alb_song_plate.innerHTML="<div class='loader'></div>";//handle loding untill songs come
                 $.get(apiUrl+"/fetch_songs_by_album_id.php",{
                     "id":id
                 },function(response){
@@ -690,6 +700,7 @@
                 
                 //fetch songs of the selected album
                 var alb_song_plate=document.getElementById("alb-song-plate");
+                alb_song_plate.innerHTML="<div class='loader'></div>";//handle loding untill songs come
                 $.get(apiUrl+"/fetch_songs_by_langauge_id.php",{
                     "id":id
                 },function(response){
