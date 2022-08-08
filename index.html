@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Clone</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/utils.css">
+    <link rel="stylesheet" href="css/style_home.css">
+    <link rel="stylesheet" href="css/album.css">
+    <link rel="stylesheet" href="css/search.css">
+    <script src="js/config.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/temp_data.js"></script>
+    
+    <!--extracting song info-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    
+    
+    
+    
+
+
+    <!--main body-->
+    <div id="middle-body">
+
+        
+    <section id="home">
+        <div class="main-container" id="fslider-container">
+            <div class="fslider" id="fslider">
+                <div id="fslider-chain">
+                    <div class="fslider-card" id="bengali" onclick="gotoLangauge(id);">
+                        <div class="fslider-card-name">Bengali</div>
+                        <img id="beng-card" src="img/shreya_ghosal.png" class="fslider-card-image">
+                    </div>
+                    <div class="fslider-card" id="hindi" onclick="gotoLangauge(id);">
+                        <div class="fslider-card-name">Hindi</div>
+                        <img src="img/sonu_nigam.png" class="fslider-card-image">
+                    </div>
+                    <div class="fslider-card" id="english" onclick="gotoLangauge(id);">
+                        <div class="fslider-card-name">English</div>
+                        <img src="img/english.png" class="fslider-card-image">
+                    </div>
+                </div>
+            </div>
+            <div class="left-slide" id="fslider-left-slide" onclick="">
+                <div class="left-slide-image" id="fslider-left"><i class="fa-solid fa-4x fa-angle-left"></i></div>
+            </div>
+            <div class="right-slide" id="fslider-right-slide"  onclick="">
+                <div class="right-slide-image" id="fslider-right"><i class="fa-solid fa-4x fa-angle-right"></i></div>
+            </div>
+        </div>
+    
+    
+        <div class="main-container">
+            <div class="section-name" >Album</div>
+            <div class="slider" id="slider1" >
+                <div class="chain" id="chain1">
+                    <!--
+                    <div class="card-container">
+                        <div class="card" ></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    -->
+                </div>
+            </div>
+    
+            <div class="left-slide" onclick="lslide1()">
+                <div class="left-slide-image"><i class="fa-solid fa-3x fa-angle-left"></i></div>
+            </div>
+            <div class="right-slide" onclick="rslide1()">
+                <div class="right-slide-image"><i class="fa-solid fa-3x fa-angle-right"></i></div>
+            </div>
+            
+        </div>
+    
+    
+        <div class="main-container">
+            <div class="section-name">Songs</div>
+            <div class="slider" id="slider2" >
+                <div class="chain" id="chain2">
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                    <div class="card-container">
+                        <div class="card"></div>
+                        <div class="card-name">name</div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="left-slide" onclick="lslide2()">
+                <div class="left-slide-image"><i class="fa-solid fa-3x fa-angle-left"></i></div>
+            </div>
+            <div class="right-slide" onclick="rslide2()">
+                <div class="right-slide-image"><i class="fa-solid fa-3x fa-angle-right"></i></div>
+            </div>
+            
+        </div>
+    
+    
+        <script>
+            const slider_width=350; 
+            var currPos=0;
+            var fslider_left=document.getElementById("fslider-left-slide");
+            var fslider_right=document.getElementById("fslider-right-slide");
+            var fslider=document.getElementById("fslider");
+            var fslider_container=document.getElementById("fslider-container");
+            var slider1=document.getElementById('slider1');
+            var slider2=document.getElementById('slider2');
+    
+            //fslider
+            //window current width
+            var fslider_window_english=document.getElementById("english");
+            var fslider_window_hindi=document.getElementById("hindi");
+            var fslider_window_bengali=document.getElementById("bengali");
+    
+            var fslider_window_width=fslider_window_bengali.getBoundingClientRect().width;
+            fslider_container.style.height=Math.max(Math.round(fslider_window_width/2.4),300)+"px";
+            fslider.scrollLeft=0;
+            //when window size got changed
+            function adjustFsliderHeight()
+            {
+                fslider.scrollLeft=0;
+                slider1.scrollLeft=0;
+                slider1.scrollLeft=0;
+                fslider_window_width=fslider_window_bengali.getBoundingClientRect().width;
+                //adjust mslider card ratio 2.4
+                var h = window.innerHeight-160-10;
+                fslider_container.style.height=Math.min(h,Math.max(Math.round(fslider_window_width/2.7),300))+"px";
+                //adjust fslider card images
+                var fcard=document.getElementsByClassName("fslider-card-image");
+                var cardh=fcard[0].getBoundingClientRect().height;
+                for(var i=0;i<fcard.length;i++)
+                {
+                    fcard[i].style.width=cardh*1.56+"px";
+                }
+
+            }
+            adjustFsliderHeight();
+            window.addEventListener('resize',()=>{
+                adjustFsliderHeight();
+            })
+            //handle unusual position
+            fslider.addEventListener('scroll',()=>{
+                setTimeout(function(){
+                    //handle animation & pperfect position
+                    var cs=Math.round(fslider.scrollLeft/fslider_window_width);
+                    if(fslider.scrollLeft!=cs*fslider_window_width)
+                        fslider.scrollLeft=fslider_window_width*cs;
+                },500);
+                
+            })
+            fslider_left.addEventListener('click',()=>{
+                fslider.scrollLeft-=fslider_window_width;
+            })
+            fslider_right.addEventListener('click',()=>{
+                fslider.scrollLeft+=fslider_window_width;
+            })
+    
+            //fslider end
+    
+    
+            function lslide1()
+            {
+                slider1.scrollLeft-=slider_width;
+                event.preventDefault();
+            }
+            function rslide1()
+            {
+                slider1.scrollLeft+=slider_width;
+                event.preventDefault();
+            }
+            /*slider1.addEventListener('scroll',()=>{
+                setTimeout(function(){
+                    //handle animation & pperfect position
+                    var cs=Math.round(slider1.scrollLeft/slider_width);
+                    if(){}
+                    else if(fslider.scrollLeft!=cs*slider_width)
+                        slider1.scrollLeft=slider_width*cs;
+                },500);
+                
+            }) */
+    
+    
+            function lslide2()
+            {
+                slider2.scrollLeft-=350;
+                event.preventDefault();
+            }
+            function rslide2()
+            {
+                slider2.scrollLeft+=350;
+                event.preventDefault();
+            }
+    
+    
+            //fetch album, song through api;
+            $(document).ready(function() {
+                var chain1=document.getElementById("chain1");
+                $.get(apiUrl+"/fetch_album_home.php", {
+                }, function(response){
+                    var result = JSON.parse("" + response);
+                    if(result.status===true)
+                    {
+                        //initilize albums
+                        homeAlbumList=result;
+                        //end
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        homeAlbumList.path=path;
+                        tempAlbumList.path=path;
+                        tempAlbumList.data=data;
+                        var chainWidth=0;
+                        var albumCards="";
+                        data.forEach(element => {
+                            chainWidth+=350;
+                            var link=path+"album/"+element['sort_path'];
+                            albumCards+='<div class="card-container" id="a'+element['id']+'" onclick="gotoAlbum('+element['id']+')">'+
+                            '<div class="card" style="background-image:url('+link+');"></div>'+
+                            '<div class="card-name">'+element['name']+'</div>'+
+                            '</div>';
+                        });
+                        chain1.innerHTML=albumCards;
+                        chain1.style.width=chainWidth+"px";
+                    }
+                    //console.log(albumCards);
+                    
+    
+                })
+                //fetch songs
+                var chain2=document.getElementById("chain2");
+                $.get(apiUrl+"/fetch_song_home.php", {
+                }, function(response){
+                    var result = JSON.parse("" + response);
+                    if(result.status===true)
+                    {
+                        //initilize songs
+                        //homeSongsList=result;
+                        //end
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        homeSongList=result;
+                        homeSongList.path=path;
+                        var songCards="";
+                        var chainWidth=0;
+                        data.forEach(element => {
+                            chainWidth+=350;
+                            var link=path+"images/"+element['image'];
+                            songCards+='<div class="card-container songPlayCard" id=s"'+element['id']+'">'+
+                            '<div class="card" style="background-image:url('+link+');"></div>'+
+                            '<div class="card-name">'+element['title']+'</div>'+
+                            '</div>';
+                        });
+                        //console.log(songCards);
+                        chain2.style.width=chainWidth+"px";
+                        chain2.innerHTML=songCards;
+                        //alert(songCards);
+                        onClickSongPlayCards();
+                    }
+                    
+    
+                })
+            })
+
+
+            function gotoLangauge(cid)
+            {
+                if(cid=="bengali") cid=1;
+                if(cid=="hindi") cid=2;
+                if(cid=="english") cid=3;
+                openLangauge();
+                //send api request to fetch all the songs available in the album
+                var alb_song_plate=document.getElementById("alb-song-plate");
+                $.get(apiUrl+"/fetch_songs_by_langauge_id.php",{
+                    "id":cid
+                },function(response){
+                    //console.log(response)
+                    currAlbum=cid;
+                    var result = JSON.parse(""+response);
+                    if(result.status===true)
+                    {
+                        //console.log(result);
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        //initilize songs
+                        currSongPath=path;
+                        //console.log("..."+currSongPath+"....hi");
+                        tempSongList=result;
+                        tempSongList.path=path;
+                        //end
+                        var songItems="";
+                        data.forEach(ele => {
+                            var link=path+"images/"+ele['image'];
+                            songItems+='<div class="songItem">'+
+                            '<img src="'+link+'" >'+
+                            '<span class="songName">'+ele['title']+'</span>'+
+                            '<span class="songlistplay"><span class="timestamp"></span><i id="'+ele['id']+'" ></i></span></span>'+
+                        '</div>'
+                        });
+                        alb_song_plate.innerHTML=songItems;
+                        adjustSongPlateHeight();
+                        part2();
+                    }
+                        
+                });
+
+                //end
+
+                var alb_slider=document.getElementById("alb-slider");
+                var innerslider="";
+                var temp="";
+                var bigCard="";
+                if(homeLangList==="null")
+                {
+                    alert("wait some data is not loaded");
+                }
+                else
+                {
+                var path=homeLangList.path;
+                var data=homeLangList.data;
+
+                data.forEach(ele=>{
+                    var link=path+"language/"+ele['sort_path'];
+                    if(ele['id']!=cid)
+                        innerslider+='<div class="alb-scard-container"  id="'+ele['id']+'" onclick="setViewboxLang(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                    else
+                    {
+                        temp+='<div class="alb-scard-container" id="'+ele['id']+'" onclick="setViewboxLang(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                        bigCard+='<img src="'+link+'" alt="">'+
+                                '<div id="alb-right">'+
+                                    '<div class="alb-title" id="title">'+ele['name']+'</div>'+
+                                    '<div class="alb-desc"></div>'+
+                                '</div>';
+                    }
+                })
+                alb_slider.innerHTML=temp+innerslider;
+                //handle language-card-container
+                var alb_card_container=document.getElementById("alb-card-container");
+                alb_card_container.innerHTML=bigCard;
+                part1();
+                }
+            
+            }
+            //on clicking algum goto album page with id
+            function gotoAlbum(cid)
+            {
+                openAlbum();
+                //send api request to fetch all the songs available in the album
+                var alb_song_plate=document.getElementById("alb-song-plate");
+                $.get(apiUrl+"/fetch_songs_by_album_id.php",{
+                    "id":cid
+                },function(response){
+                    //console.log(response)
+                    currAlbum=cid;
+                    var result = JSON.parse(""+response);
+                    if(result.status===true)
+                    {
+                        //console.log(result);
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        //initilize songs
+                        currSongPath=path;
+                        //console.log("..."+currSongPath+"....hi");
+                        tempSongList=result;
+                        tempSongList.path=path
+                        //end
+                        var songItems="";
+                        data.forEach(ele => {
+                            var link=path+"images/"+ele['image'];
+                            songItems+='<div class="songItem">'+
+                            '<img src="'+link+'" >'+
+                            '<span class="songName">'+ele['title']+'</span>'+
+                            '<span class="songlistplay"><span class="timestamp"></span><i id="'+ele['id']+'" ></i></span></span>'+
+                        '</div>';
+                        })
+                        alb_song_plate.innerHTML=songItems;
+                        adjustSongPlateHeight();
+                        part2();
+                    }
+                        
+                });
+
+                //end
+
+                var alb_slider=document.getElementById("alb-slider");
+                var innerslider="";
+                var temp="";
+                var bigCard="";
+                /*if(from==="search")
+                {
+                    var path=tempAlbumList.path;
+                    var data=tempAlbumList.data;
+                }
+                else
+                {*/
+                    var path=homeAlbumList.path;
+                    var data=homeAlbumList.data;
+                //}
+                
+        
+                data.forEach(ele=>{
+                    var link=path+"album/"+ele['sort_path'];
+                    if(ele['id']!=cid)
+                        innerslider+='<div class="alb-scard-container"  id="'+ele['id']+'" onclick="setViewboxAlbum(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                    else
+                    {
+                        temp+='<div class="alb-scard-container" id="'+ele['id']+'" onclick="setViewboxAlbum(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                        bigCard+='<img src="'+link+'" alt="">'+
+                                '<div id="alb-right">'+
+                                    '<div class="alb-title" id="title">'+ele['name']+'</div>'+
+                                    '<div class="alb-desc"></div>'+
+                                '</div>';
+                    }
+                })
+                alb_slider.innerHTML=temp+innerslider;
+                //handle alb-card-container
+                var alb_card_container=document.getElementById("alb-card-container");
+                alb_card_container.innerHTML=bigCard;
+                part1();
+
+            }
+
+    
+        </script>
+        <script src="https://kit.fontawesome.com/494e4c8171.js" crossorigin="anonymous"></script>
+
+    </section>
+    <section id="album">
+        <div id="alb-main-container">
+            <div id="alb-slider">
+                <div class="alb-scard-container">
+                    <div class="alb-scard">
+                    </div>
+                    <div class="alb-scard-name">
+                        album name 
+                    </div>
+                </div>
+                <div class="alb-scard-container">
+                    <div class="alb-scard">
+                    </div>
+                    <div class="alb-scard-name">
+                        album name 
+                    </div>
+                </div>
+                <div class="alb-scard-container">
+                    <div class="alb-scard">
+                    </div>
+                    <div class="alb-scard-name">
+                        album name 
+                    </div>
+                </div>
+                <div class="alb-scard-container">
+                    <div class="alb-scard">
+                    </div>
+                    <div class="alb-scard-name">
+                        album name 
+                    </div>
+                </div>
+                <div class="alb-scard-container">
+                    <div class="alb-scard">
+                    </div>
+                    <div class="alb-scard-name">
+                        album name 
+                    </div>
+                </div>
+            </div>
+            <div id="alb-viewbox">
+                <div id="alb-card-container">
+                    <img id="alb-bcard-img" src="backend/media/images/8.jpg" alt="">
+                    <div id="alb-right">
+                        <div class="alb-title" id="title">Shreya ghosal</div>
+                        <div class="alb-desc"></div>
+                    </div>
+                </div>
+                <div id="alb-songs-container">
+                    <div id="alb-song-plate">
+                        <div class="songItem">
+                            <img src="img/cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                        <div class="songItem">
+                            <img src="cover1.jpg" >
+                            <span class="songName">Song Name</span>
+                            <span class="songlistplay"><span class="timestamp">6.32</span><i id="0" class=" songItemPlay fa-regular fa-1x fa-circle-play"></i></span></span>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+        <script>
+            var vb=document.getElementById("alb-viewbox");
+            var cc=document.getElementById("alb-card-container");
+            var bcard=document.getElementById("alb-bcard-img");
+            var sc=document.getElementById("alb-songs-container");
+            var aslider=document.getElementById("alb-slider");
+            var ascard=document.getElementsByClassName("alb-scard");
+            function adjustSongPlateHeight()
+                {
+                    var bcardh=Math.min(0.33*window.innerHeight,bcard.getBoundingClientRect().height);
+                    var ratio=bcard.getBoundingClientRect().width/bcard.getBoundingClientRect().height;
+                    bcard.style.height=bcardh+"px";
+                    bcard.style.width=(bcardh*ratio)+"px";
+                    //alert(window.innerHeight+"px");
+
+                    var h1 = vb.getBoundingClientRect().height-160;
+                    var h2=cc.getBoundingClientRect().height;
+                    
+                    sc.style.height=(h1-h2-40)+"px";
+                    aslider.style.height=(h1-100)+"px";
+                    var ascardh=ascard[0].getBoundingClientRect().width/1.7532;
+                    for(var i=0;i<ascard.length;i++)
+                    {
+                        ascard[i].style.height=ascardh+"px";
+                    }
+                    
+                }
+                adjustSongPlateHeight();
+            window.addEventListener('resize',()=>{
+                adjustSongPlateHeight();
+            })
+
+            function setViewboxAlbum(id)
+            {
+                
+                //when we change the album
+                
+                //fetch songs of the selected album
+                var alb_song_plate=document.getElementById("alb-song-plate");
+                $.get(apiUrl+"/fetch_songs_by_album_id.php",{
+                    "id":id
+                },function(response){
+                    //console.log(response);
+                    currAlbum=id;
+                    var result = JSON.parse(""+response);
+                    if(result.status===true)
+                    {
+                        //console.log(result);
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        //initilize songs
+                        tempSongList=result;
+                        tempSongList.path=path;
+
+                        //console.log(currSongList[0]);
+                        currSongIndex=0;
+                        //end
+                        var songItems="";
+                        data.forEach(ele => {
+                            /*var ae=new Audio(path+"songs/"+ele['audio']);
+                            var time=ae.duration;
+                            console.log(time); */
+                            var link=path+"images/"+ele['image'];
+                            songItems+='<div class="songItem">'+
+                            '<img src="'+link+'" >'+
+                            '<span class="songName">'+ele['title']+'</span>'+
+                            '<span class="songlistplay"><span class="timestamp"></span></span></span>'+
+                        '</div>'
+                        });
+                        alb_song_plate.innerHTML=songItems;
+                        adjustSongPlateHeight();
+                        part2();
+                        //console.log(currSongList);
+                    }
+                        
+                });
+
+                homeAlbumList.data.forEach(ele=>{
+                    var link=homeAlbumList.path+"album/"+ele['sort_path'];
+                    if(ele['id']==id)
+                    {
+                        cc.innerHTML='<img src="'+link+'" alt="">'+
+                                '<div id="alb-right">'+
+                                    '<div class="alb-title" id="title">'+ele['name']+'</div>'+
+                                    '<div class="alb-desc"></div>'+
+                                '</div>';
+                    }
+                })
+            }
+
+            function setViewboxLang(id)
+            {
+                
+                //when we change the langauge
+                
+                //fetch songs of the selected album
+                var alb_song_plate=document.getElementById("alb-song-plate");
+                $.get(apiUrl+"/fetch_songs_by_langauge_id.php",{
+                    "id":id
+                },function(response){
+                    //console.log(response);
+                    currAlbum=id;
+                    var result = JSON.parse(""+response);
+                    if(result.status===true)
+                    {
+                        //console.log(result);
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        //initilize songs
+                        currSongPath=path;
+                        tempSongList=result;
+                        tempSongList.path=path;
+
+                        //console.log(currSongList[0]);
+                        currSongIndex=0;
+                        //end
+                        var songItems="";
+                        data.forEach(ele => {
+                            /*var ae=new Audio(path+"songs/"+ele['audio']);
+                            var time=ae.duration;
+                            console.log(time); */
+                            var link=path+"images/"+ele['image'];
+                            songItems+='<div class="songItem">'+
+                            '<img src="'+link+'" >'+
+                            '<span class="songName">'+ele['title']+'</span>'+
+                            '<span class="songlistplay"><span class="timestamp"></span></span></span>'+
+                        '</div>'
+                        });
+                        alb_song_plate.innerHTML=songItems;
+                        adjustSongPlateHeight();
+                        part2();
+                        //console.log(currSongList);
+                    }
+                    else{
+                        alb_song_plate.innerHTML="<div>No Songs Found</div>"
+                    }
+                        
+                });
+
+                homeLangList.data.forEach(ele=>{
+                    var link=homeLangList.path+"language/"+ele['sort_path'];
+                    if(ele['id']==id)
+                    {
+                        cc.innerHTML='<img src="'+link+'" alt="">'+
+                                '<div id="alb-right">'+
+                                    '<div class="alb-title" id="title">'+ele['name']+'</div>'+
+                                    '<div class="alb-desc"></div>'+
+                                '</div>';
+                    }
+                })
+            }
+    
+    
+    
+            
+    
+        </script>
+    </section>
+    <section id="search">
+        <div class="alb-main-container">
+            <div id="sr-main-container">
+                <div id="sr-search-container">
+                    <input type="text" name="sr-text" id="sr-text" placeholder="Search by Song or Album Name">
+                    <img src="img/search.png" alt="">
+                </div>
+                <div id="sr-result">
+                    <!--
+                        <div class="se-res-name">Albums</div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-name">Songs</div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>
+                        <div class="se-res-cardContainer">
+                            <img src="" alt="" class="se-res-card-img">
+                            <div class="se-res-card-name">hiii</div>
+                        </div>-->
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                var search_text=document.getElementById("sr-text");
+                var sr_search_container=document.getElementById("sr-search-container");
+                var sr_result=document.getElementById("sr-result");
+                //alert((sr_search_container.getBoundingClientRect.height-180)+"px");
+                sr_result.style.height=(window.innerHeight-300)+"px";
+                search_text.addEventListener("input",()=>{
+                    if(search_text.value.length>1)
+                    {
+                        
+                        $.post(apiUrl+"/search.php",{
+                            "name" : search_text.value
+                        },function(response){
+                           
+                            var res=JSON.parse("" + response);
+                            if(res.status===true)
+                            {
+                                //set songs
+                                var htmlData="";
+                                var link=res.path;
+                                link=link.replace("\/","/");
+                                
+                                if(res.songsStatus===true)
+                                {
+                                    var songHtml='<div class="se-res-name">Songs</div>';
+                                    res.songs.forEach(element => {
+                                        songHtml+='<div class="se-res-cardContainer">'+
+                                                        '<img src="'+link+"images/"+element["image"]+'" alt="" class="se-res-card-img">'+
+                                                        '<div class="se-res-card-name">'+element["title"]+'</div>'+
+                                                    '</div>';
+                                    });
+                                    htmlData+=songHtml;
+                                    tempSongList=res;  
+                                    tempSongList.path=res.path;
+                                    
+                                }
+        
+                                //set albums
+                                if(res.albumsStatus===true)
+                                {
+                                    searchAlbumList=res;
+                                    var albumHtml='<div class="se-res-name">Albums</div>';
+                                    res.albums.forEach(element => {
+                                        albumHtml+='<div class="se-res-cardContainer" onclick="gotoSearchAlbum('+element['id']+')">'+
+                                                        '<img src="'+link+"album/"+element["sort_path"]+'" alt="" class="se-res-card-img">'+
+                                                        '<div class="se-res-card-name">'+element["name"]+'</div>'+
+                                                    '</div>';
+                                    });
+                                    htmlData+=albumHtml;
+                                    tempAlbumList.path=res.path;
+                                    tempAlbumList.data=res.albums;
+                                }
+                                sr_result.innerHTML=htmlData;
+                                if(res.songsStatus===true) onClickSearchSongPlayCards();
+                            }
+                            else{
+                                sr_result.innerHTML='<div id="no-result">No Result Found for <br> '+search_text.value+'<div>';
+                            }
+                        });
+                    }
+                })
+        
+        
+            })
+            function gotoSearchAlbum(cid)
+            {
+                openAlbum();
+                //send api request to fetch all the songs available in the album
+                var alb_song_plate=document.getElementById("alb-song-plate");
+                $.get(apiUrl+"/fetch_songs_by_album_id.php",{
+                    "id":cid
+                },function(response){
+                    //console.log(response)
+                    currAlbum=cid;
+                    var result = JSON.parse(""+response);
+                    if(result.status===true)
+                    {
+                        //console.log(result);
+                        var path=result.path;
+                        var data=result.data;
+                        path=path.replace("\/","/");
+                        //initilize songs
+                        currSongPath=path;
+                        //console.log("..."+currSongPath+"....hi");
+                        tempSongList.data=result;
+                        tempSongList.path=path
+                        //end
+                        var songItems="";
+                        data.forEach(ele => {
+                            var link=path+"images/"+ele['image'];
+                            songItems+='<div class="songItem">'+
+                            '<img src="'+link+'" >'+
+                            '<span class="songName">'+ele['title']+'</span>'+
+                            '<span class="songlistplay"><span class="timestamp"></span><i id="'+ele['id']+'" ></i></span></span>'+
+                        '</div>';
+                        })
+                        alb_song_plate.innerHTML=songItems;
+                        adjustSongPlateHeight();
+                        setViewboxAlbum(cid);
+                        
+                    }
+                        
+                });
+
+                //end
+
+                var alb_slider=document.getElementById("alb-slider");
+                var innerslider="";
+                var temp="";
+                var bigCard="";
+                /*if(from==="search")
+                {
+                    var path=tempAlbumList.path;
+                    var data=tempAlbumList.data;
+                }
+                else
+                {*/
+                    var path=homeAlbumList.path;
+                    var data=searchAlbumList.albums;
+                //}
+                
+        
+                data.forEach(ele=>{
+                    var link=path+"album/"+ele['sort_path'];
+                    if(ele['id']!=cid)
+                        innerslider+='<div class="alb-scard-container"  id="'+ele['id']+'" onclick="setViewboxAlbum(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                    else
+                    {
+                        temp+='<div class="alb-scard-container" id="'+ele['id']+'" onclick="setViewboxAlbum(id)" >'+
+                                '<div class="alb-scard" style="background-image:url('+link+');">'+
+                                '</div>'+
+                                '<div class="alb-scard-name">'+
+                                    ele['name']+
+                                '</div>'+
+                            '</div>';
+                        bigCard+='<img src="'+link+'" alt="">'+
+                                '<div id="alb-right">'+
+                                    '<div class="alb-title" id="title">'+ele['name']+'</div>'+
+                                    '<div class="alb-desc"></div>'+
+                                '</div>';
+                    }
+                })
+                alb_slider.innerHTML=temp+innerslider;
+                //handle alb-card-container
+                var alb_card_container=document.getElementById("alb-card-container");
+                alb_card_container.innerHTML=bigCard;
+                part1();
+
+            }
+
+        </script>
+    </section>
+    <script >
+        /*
+       
+        var alb=document.getElementById("album");
+        $.get("album.html", {
+                }, function(response){
+                    alb.innerHTML=response;
+                })
+                var alb=document.getElementById("album");
+        */
+    </script>
+        
+        
+        
+        
+        
+        
+    </div>
+    <!--main-body end-->
+
+
+    
+    
+    <!--navbar header--> 
+
+    <nav>
+        <ul>
+            <li class="brand"><img src="img/logo.png" >Spotify</li>
+            <li id="homeBtn">Home</li>
+            <li id="searchBtn">Search</li>
+            <li>About</li>
+        </ul>
+    </nav>
+    <div class="bottom">
+        <input type="range" name="range" id="myProgressBar" min="0" max="100" value="0" >
+        <div class="icons">
+            <!--font arswam icons-->
+            <i id="leftSong" class="fa-regular fa-2x fa-circle-left"></i>
+            <i class="fa-regular fa-2x fa-circle-play" id="masterPlay"></i>
+            <i id="rightSong" class="fa-regular fa-2x fa-circle-right"></i>
+
+        </div>
+        <div class="songInfo">
+            <div src="img/cover1.png" id="song-image-mp" alt="no" ></div>
+            <div id="songInfoName">Do Pal Ruka Lyrics in Hindi from Veer Zaara movie</div>
+        </div>
+        <img src="img/playing.gif" id="gif">
+        
+        <div id="songDuration">
+            <span id="currTime">22.34</span>
+            <span>/</span>
+            <span id="totalTime">22.34</span>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/494e4c8171.js" crossorigin="anonymous"></script>
+</body>
+    <script src="js/script.js"></script>
+</html>
+
+<script>
+    var home=document.getElementById("home");
+    var album=document.getElementById("album");
+    var search=document.getElementById("search");
+    var homeBtn=document.getElementById("homeBtn");
+    var searchBtn=document.getElementById("searchBtn");
+    function openAlbum()
+    {
+        album.style.display="block";
+        home.style.display="none";
+        currScreen="album";
+        //part2();
+    }
+    function openLangauge()
+    {
+        album.style.display="block";
+        home.style.display="none";
+        search.style.display="none";
+        currScreen="album";
+        part2();
+    }
+    function openHome()
+    {
+        home.style.display="block";
+        album.style.display="none";
+        search.style.display="none";
+        currScreen="home";
+        
+    }
+    function openSearch()
+    {
+        search.style.display="block";
+        album.style.display="none";
+        home.style.display="none";
+        currScreen="home";
+    }
+
+    homeBtn.addEventListener("click",()=>{
+            openHome();
+            onClickSongPlayCards();
+        
+    })
+    searchBtn.addEventListener("click",()=>{
+            openSearch();
+        
+    })
+    album.style.display="none";
+    currScreen="home";
+</script>
